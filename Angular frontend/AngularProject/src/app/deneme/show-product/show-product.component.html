@@ -1,0 +1,112 @@
+
+<div class="container">
+  <h1 class="text-center">Product List </h1>
+  <h4 class="text-center">({{count}} Products in Database)</h4>
+</div>
+
+<p-messages></p-messages>
+
+<br><br>
+<p-toolbar>
+  <div class="p-toolbar-group-left">
+  </div>
+
+  <div class="p-toolbar-group-right">
+
+      <p-button label="Add Product" (click)="modalAdd()" icon="pi pi-upload" styleClass="p-button-success"></p-button>
+  </div>
+</p-toolbar>
+
+<p-table #dt [value]="ProductAny"  dataKey="id" styleClass="p-datatable-customers" [rowHover]="true"
+            [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+            [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [filterDelay]="0" [globalFilterFields]="['name','stock','price','categoryId','createdDate','createdHour','updatedDate']">
+
+
+            <ng-template pTemplate="caption">
+              <div class="table-header">
+                  List of Products
+
+              </div>
+          </ng-template>
+          <ng-template pTemplate="header">
+            <tr>
+              <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon></th>
+              <th pSortableColumn="stock">Stock <p-sortIcon field="stock"></p-sortIcon></th>
+              <th pSortableColumn="price">Price <p-sortIcon field="price"></p-sortIcon></th>
+              <th pSortableColumn="categoryId">Category Id <p-sortIcon field="categoryId"></p-sortIcon></th>
+              <th pSortableColumn="createdDate">Created Date <p-sortIcon field="createdDate"></p-sortIcon></th>
+              <th pSortableColumn="createdHour">Created Hour <p-sortIcon field="createdHour"></p-sortIcon></th>
+              <th pSortableColumn="updatedDate">Updated Date <p-sortIcon field="updatedDate"></p-sortIcon></th>
+              <th>Options</th>
+            </tr>
+          </ng-template>
+
+
+            <ng-template pTemplate="body" let-ProductAny>
+                <tr>
+                    <td>
+                        <span class="p-column-title">Name</span>
+                        {{ProductAny.name}}
+                    </td>
+                    <td>
+                        <span class="p-column-title">Stock</span>
+                        <span class="image-text">{{ProductAny.stock}}</span>
+                    </td>
+                    <td>
+                        <span class="p-column-title">Price</span>
+                        <span class="image-text">{{ProductAny.price}}</span>
+                    </td>
+                    <td>
+                      <span class="p-column-title">Category Id</span>
+                      <span class="image-text">{{ProductAny.categoryId}}</span>
+                  </td>
+                  <td>
+                    <span class="p-column-title">Created Date</span>
+                    <span class="image-text">{{this.ProductAny.createdDate | date }}</span>
+                </td>
+                <td>
+                  <span class="p-column-title">Created Hour</span>
+                  <span class="image-text">{{ProductAny.createdDate | date:'shortTime'}}</span>
+              </td>
+                <td>
+                  <span class="p-column-title">Updated Date</span>
+                  <span class="image-text">{{ProductAny.updatedDate | date}}</span>
+              </td>
+
+              <td>
+                <span class="p-column-title">Options</span>
+                <div class="flex">
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="modalEdit(ProductAny)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="delete(ProductAny)"></button>
+                </div>
+            </td>
+
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="8">No products found.</td>
+                </tr>
+            </ng-template>
+        </p-table>
+
+
+
+
+
+
+
+<button (click)="modalClose()" id="add-edit-modal-close" [hidden]="true"></button>
+
+
+<app-add-edit-product [product]="product" *ngIf="activateAddEditProductComponent"></app-add-edit-product>
+
+
+
+
+
+
+
+
+

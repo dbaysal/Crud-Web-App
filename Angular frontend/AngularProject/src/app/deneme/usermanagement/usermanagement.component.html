@@ -1,0 +1,140 @@
+
+
+<div class="container">
+  <h1 class="text-center">User List</h1>
+</div>
+
+
+<p-messages></p-messages>
+
+
+<p-dialog header="Role Management" [(visible)]="activateAddRoleComponent" [style]="{width: '50vw'}" [baseZIndex]="10000" (onHide)="modalClose()">
+
+  <div class="card p-fluid">
+    <div class="field">
+      <label for="categoryId" class="form-label">Roles</label><br>
+      <select class="form-control"  [(ngModel)]="roleId" >
+        <option hidden selected> -- select a role --</option>
+        <ng-container *ngFor="let item of this.RoleList$|async" >
+          <option  *ngIf="!this.roleIds.includes(item.id)" for="name" class="form-label" [value]="item.id" >{{item.name}}</option>
+        </ng-container>
+      </select>
+    </div>
+
+  </div>
+
+  <ng-template pTemplate="footer">
+    <p-button icon="pi pi-check" (click)="addRole()" label="Add" styleClass="p-button-text"></p-button>
+  </ng-template>
+
+</p-dialog>
+
+
+<p-dialog header="Role Management" [(visible)]="activateDeleteRoleComponent" [style]="{width: '50vw'}" [baseZIndex]="10000" (onHide)="modalClose()">
+
+  <div class="card p-fluid">
+    <div class="field">
+      <label for="categoryId" class="form-label">Roles</label><br>
+      <select class="form-control"  [(ngModel)]="roleId" >
+        <option hidden selected> -- select a role --</option>
+        <ng-container *ngFor="let item of this.RoleList$|async" >
+          <option *ngIf="this.roleIds.includes(item.id)" for="name" class="form-label" [value]="item.id" >{{item.name}}</option>
+        </ng-container>
+      </select>
+    </div>
+
+  </div>
+
+  <ng-template pTemplate="footer">
+    <p-button icon="pi pi-minus" (click)="removeRole()" label="Remove" styleClass="p-button-text"></p-button>
+  </ng-template>
+
+</p-dialog>
+
+
+
+
+
+<br><br>
+
+<p-table #dt [value]="userAny"  dataKey="id" styleClass="p-datatable-customers" [rowHover]="true"
+            [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]"
+            [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [filterDelay]="0" [globalFilterFields]="['username','password']">
+
+
+            <ng-template pTemplate="caption">
+              <div class="table-header">
+                  List of Users
+
+              </div>
+          </ng-template>
+          <ng-template pTemplate="header">
+            <tr>
+              <th pSortableColumn="username">Username <p-sortIcon field="username"></p-sortIcon></th>
+              <th pSortableColumn="password">Password <p-sortIcon field="password"></p-sortIcon></th>
+              <th>Roles</th>
+              <th>Add/Remove Role</th>
+            </tr>
+          </ng-template>
+
+
+            <ng-template pTemplate="body" let-userAny>
+                <tr>
+
+                    <td>
+                        <span class="p-column-title">Username</span>
+                        <span class="image-text">{{userAny.username}}</span>
+
+                    </td>
+                    <td>
+                        <span class="p-column-title">Password</span>
+                        <span class="image-text">{{userAny.password}}</span>
+                    </td>
+
+                    <td>
+
+                      <span class="p-column-title">Roles</span>
+
+                    <p-accordion>
+                      <p-accordionTab header="Roles" [selected]="false" class="line-height-2 m-0">
+
+                        <ng-container *ngFor="let item2 of userAny.roleIds" >
+                          <p >{{RoleMap.get(item2)}}<br/></p>
+                        </ng-container>
+
+
+                      </p-accordionTab>
+                      </p-accordion>
+
+                    </td>
+
+
+
+
+              <td>
+                <span class="p-column-title">Add/Remove Roles</span>
+                <div class="flex">
+                    <button pButton pRipple icon="pi pi-plus" class="p-button-rounded p-button-success mr-2" (click)="modalEditAdd(userAny)"></button>
+                    <button pButton pRipple icon="pi pi-minus" class="p-button-rounded p-button-warning" (click)="modalEditDelete(userAny)"></button>
+                </div>
+            </td>
+
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="8">No users found.</td>
+                </tr>
+            </ng-template>
+        </p-table>
+
+
+
+
+
+
+
+
+
+

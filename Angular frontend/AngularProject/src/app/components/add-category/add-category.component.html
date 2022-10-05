@@ -1,0 +1,17 @@
+
+<p-dialog header="Category Operations" [(visible)]="visible" [style]="{width: '50vw'}" [baseZIndex]="10000" (onHide)="close()">
+
+  <div class="card p-fluid">
+    <div class="field">
+      <label for="name" class="form-label">Name</label><br>
+      <input type="text" class="form-control" [(ngModel)]="name" name="name">
+    </div>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <p-button icon="pi pi-check" (click)="addCategory()" label="Add" styleClass="p-button-text"></p-button>
+  </ng-template>
+
+</p-dialog>
+
+
